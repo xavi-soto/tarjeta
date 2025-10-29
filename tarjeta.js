@@ -85,5 +85,4 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // --- LA LÓGICA VIEJA DE LA MANITA HA SIDO REEMPLAZADA POR LA NUEVA SECUENCIA ---
-
 });
