@@ -1,0 +1,240 @@
+/* --- Estilos Generales --- */
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0; /* Añadido para seguridad */
+    
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* --- 1. La Escena 3D (VERSIÓN DESKTOP - LA BUENA) --- */
+/* Esta es la regla por defecto para tu ordenador. NO CAMBIA. */
+.escena-tarjeta {
+    height: 85vh; 
+    width: 120.19vh; /* Proporción A4-Vertical (0.707) */
+    perspective: 1500px;
+    transform: translateX(-25%);
+    transition: transform 0.8s ease-in-out;
+}
+
+/* --- 2. Contenedor de la Tarjeta --- */
+.tarjeta {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-in-out;
+}
+
+/* --- 3. Paneles --- */
+.panel-interior {
+    background-image: url('https://res.cloudinary.com/dgqvmlrna/image/upload/v1761763547/portada3-01_nfro08.png');
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    left: 50%; 
+    background-color: #fdfdfd;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.panel-portada {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    left: 50%;
+    z-index: 2;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-in-out;
+}
+
+/* --- 4. Caras --- */
+.cara {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.cara-frontal {
+    background-image: url('https://res.cloudinary.com/dgqvmlrna/image/upload/v1761763509/portada_1-01_rxxiyg.png');
+    background-color: #d9aadd;
+    background-size: cover;
+    background-position: center;
+    z-index: 2;
+}
+
+.cara-trasera {
+    background-image: url('https://res.cloudinary.com/dgqvmlrna/image/upload/v1761763533/portada2-01_zc7fwh.png');
+    background-color: #f7f7f7;
+    background-size: cover;
+    background-position: center;
+    transform: rotateY(180deg);
+    z-index: 1;
+}
+
+/* --- 5. Estado Abierta (Rotación) --- */
+.tarjeta.abierta .panel-portada {
+    transform: rotateY(-180deg);
+}
+
+/* --- 6. Manita --- */
+@keyframes latido {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+#instruccion-mano {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+    pointer-events: none; 
+}
+#instruccion-mano img {
+    width: 90px;
+    animation: latido 1s infinite;
+}
+#instruccion-mano.oculto {
+    opacity: 0;
+}
+
+
+/* ============================================
+--- SECCIÓN DE LÓGICA MÓVIL Y DESKTOP ---
+============================================
+*/
+
+/* --- 7. LÓGICA DE MÓVIL (PORTRAIT) --- */
+@media (orientation: portrait) {
+
+    /* REGLA 1: BLOQUEA EL SCROLL (Funciona con tu JS) */
+    html.no-scroll,
+    body.no-scroll {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* REGLA 2: DESACTIVA FLEX (Para centrado manual) */
+    body {
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    /* REGLA 3: CENTRA TARJETA CERRADA (MÓVIL) */
+    .escena-tarjeta {
+        /*
+          TAMAÑO: A4-Vertical. Panel = 90vw (cercano, no enorme)
+        */
+        width: 180vw;       /* 90vw * 2 */
+        height: 127.3vw;    /* 90vw / 0.707 (A4-V) */
+
+        /*
+          CENTRADO: Manual
+        */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform-origin: 75% 50%;
+        
+        /* ¡SIN SCALE! El 90vw es el tamaño.
+           Centra la portada (75%) en la pantalla (50%).
+        */
+        transform: translate(-75%, -60%); 
+    }
+
+    /* REGLA 4: CENTRA TARJETA ABIERTA (MÓVIL) */
+    .escena-tarjeta.tarjeta-abierta-escalada {
+        transform-origin: 50% 50%;
+        
+        /* Escala para que quepa (180vw * 0.5 = 90vw) */
+        transform: translate(-50%, -50%) scale(0.5); 
+    }
+}
+
+
+/* --- 8. LÓGICA DE DESKTOP (LANDSCAPE) --- */
+/* Esto arregla la animación de centrado en tu ordenador */
+@media (orientation: landscape) {
+    .escena-tarjeta.tarjeta-abierta-escalada {
+        transform: translateX(0); 
+    }
+}
+
+/* --- 9. ICONO DE SONIDO (AÑADIR AL FINAL) --- */
+
+#iconoSonido {
+    position: fixed; /* Se queda fijo en la pantalla */
+    bottom: 30px;    /* 30px desde abajo */
+    left: 50%;       /* Centrado horizontalmente */
+    transform: translateX(-50%);
+    
+    width: 75px;     /* Tamaño del icono (ajústalo a tu gusto) */
+    z-index: 200;    /* Por encima de la tarjeta */
+    
+    /* Oculto por defecto */
+    opacity: 0;
+    display: none;
+    transition: opacity 0.5s ease;
+}
+
+/* Esta clase (que pondrá JS) lo hace visible */
+#iconoSonido.mostrando {
+    display: block;
+    opacity: 1;
+}
+
+/* --- ESTO ES EL FINAL DE TU CSS ACTUAL --- */
+#iconoSonido.mostrando {
+    display: block;
+    opacity: 1;
+}
+
+/* --- 10. AÑADE ESTOS ESTILOS PARA LA MANO DE ZOOM --- */
+#instruccionZoom {
+    position: fixed;
+    top: 37%; /* Posición diferente a la otra mano */
+    left: 85%;
+    transform: translateX(-50%);
+    z-index: 101; /* Un poco más alta que la otra */
+    transition: opacity 0.5s ease-out;
+    pointer-events: none; 
+    
+}
+
+#instruccionZoom img {
+    width: 60px; /* Mismo tamaño */
+    animation: latido 1s infinite;
+}
+
+/* Clase para ocultar la mano de zoom */
+#instruccionZoom.oculto {
+    opacity: 0;
+}
+
+
+/* --- 11. AÑADE ESTA REGLA PARA BLOQUEAR INTERACCIONES --- */
+/* Esta clase será controlada por JS */
+body.interacciones-bloqueadas {
+    /* Bloquea el clic en la tarjeta */
+    pointer-events: none;
+    
+    /* Bloquea el zoom de la página (temporalmente) */
+    touch-action: none;
+    -ms-touch-action: none;
+}
