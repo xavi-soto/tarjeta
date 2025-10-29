@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }, 500); // Espera a que la animación de 'oculto' termine
         
-    }, 4000); // 4 segundos (2s de zoom + 2s de click)
+    }, 5000); // 4 segundos (2s de zoom + 2s de click)
     
 
     // --- LÓGICA DEL SCROLL (Tu código original, no se toca) ---
@@ -85,4 +85,5 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // --- LA LÓGICA VIEJA DE LA MANITA HA SIDO REEMPLAZADA POR LA NUEVA SECUENCIA ---
+
 });
