@@ -68,14 +68,14 @@ body {
 
 .cara-frontal {
     background-image: url('https://res.cloudinary.com/dgqvmlrna/image/upload/v1761763509/portada_1-01_rxxiyg.png');
-    background-color: #d9aadd;
+    background-color: #f7f7f7;
     background-size: cover;
     background-position: center;
     z-index: 2;
 }
 
 .cara-trasera {
-    background-image: url('https://res.cloudinary.com/dgqvmlrna/image/upload/v1761763533/portada2-01_zc7fwh.png');
+    background-image: url('https://res.cloudinary.com/dgqvmlrna/image/upload/v1761771776/portada2-01_zc7fwh.png');
     background-color: #f7f7f7;
     background-size: cover;
     background-position: center;
@@ -173,6 +173,11 @@ body {
 @media (orientation: landscape) {
     .escena-tarjeta.tarjeta-abierta-escalada {
         transform: translateX(0); 
+    }
+    #instruccionZoom {
+        top: 35% !important;
+        left: 60% !important;
+        transform: translateX(-50%) !important;
     }
 }
 
